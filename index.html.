@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>57 điều Linh muốn nói</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            text-align: center;
+            padding: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .box {
+            background-color: #fff;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            position: relative;
+        }
+        .box.checked {
+            background-color: #e0ffe0;
+            border-color: #8bc34a;
+        }
+        .box::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #8bc34a;
+            display: none;
+        }
+        .box.checked::after {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>57 điều Linh muốn nói</h1>
+    <div class="grid" id="grid"></div>
+
+    <script>
+        const grid = document.getElementById('grid');
+        const totalBoxes = 57;
+        const data = JSON.parse(localStorage.getItem('linh57') || '{}');
+
+        for (let i = 1; i <= totalBoxes; i++) {
+            const box = document.createElement('div');
+            box.className = 'box';
+            box.textContent = data[i] ? data[i] : i;
+            if (data[i]) box.classList.add('checked');
+            box.addEventListener('click', () => {
+                const input = prompt('Nhập điều bạn muốn nói:', data[i] || '');
+                if (input !== null) {
+                    data[i] = input;
+                    localStorage.setItem('linh57', JSON.stringify(data));
+                    box.textContent = input;
+                    box.classList.add('checked');
+                }
+            });
+            grid.appendChild(box);
+        }
+    </script>
+</body>
+</html>
